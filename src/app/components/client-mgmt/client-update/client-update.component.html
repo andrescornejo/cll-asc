@@ -1,0 +1,58 @@
+<div class="row mx-5 my-3">
+	<a class="btn btn-outline-secondary" [routerLink]="['/client']">&larr; Back</a>
+</div>
+
+<div class="container mt-3">
+	<div class="submit-form jumbotron">
+		<!-- Notification for success because ngAlerts are not working.-->
+		<div class="alert alert-success" role="alert" *ngIf="is_updated">
+			<strong>{{ last_updated }}</strong> updated successfully.
+		</div>
+		<!-- Notification for errors because ngAlerts are not working.-->
+		<div class="alert alert-danger" role="alert" *ngIf="has_insert_error">
+			{{error_msg}}
+		</div>
+
+		<h3 class="mb-4">Update a Client.</h3>
+
+
+		<div class="row">
+			<div class="form-group col-sm">
+				<label for="old_nick">Old Nickname*</label>
+				<input type="text" class="form-control" id="old_nick" required [(ngModel)]="old_nick"
+					name="Old Nickname" readonly />
+			</div>
+			<div class="form-group col-sm">
+				<label for="nickname">New Nickname*</label>
+				<input type="text" class="form-control" id="nickname" (keyup.enter)="updateClient()" required [(ngModel)]="new_client.nickname"
+					name="Nickname" />
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-sm">
+				<label for="name_">Old Name</label>
+				<input class="form-control" id="name_" [(ngModel)]="client.name_" name="Name" readonly />
+			</div>
+			<div class="form-group col-sm">
+				<label for="new_name_">New Name</label>
+				<input class="form-control" id="new_name_" (keyup.enter)="updateClient()" [(ngModel)]="new_client.name_" name="New Name" />
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-sm">
+				<label for="surnames">Old Surnames</label>
+				<input class="form-control" id="surnames" [(ngModel)]="client.surnames" name="Surnames" readonly />
+			</div>
+			<div class="form-group col-sm">
+				<label for="surnames">New Surnames</label>
+				<input class="form-control" id="surnames" (keyup.enter)="updateClient()" [(ngModel)]="new_client.surnames" name="Surnames" />
+			</div>
+		</div>
+		<p>* required for update.</p>
+
+		<button (click)="updateClient()" class="btn btn-success">Update Client</button>
+
+	</div>
+</div>

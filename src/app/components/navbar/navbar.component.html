@@ -1,0 +1,18 @@
+<header class="navbar navbar-dark bg-dark navbar-fixed-top navbar-expand-lg"> 
+  
+   <a class="navbar-brand" [routerLink]="['/']" >Carga Llama</a> 
+  
+   <div class="navbar-collapse"  id="navbarContent"> 
+     <ul class="navbar-nav mr-auto"> 
+       <li class="nav-item" [routerLinkActive]="['active']"> 
+         <a class="nav-link" [routerLink]="['/home']">Dashboard</a> 
+       </li> 
+       <li class="nav-item" [routerLinkActive]="['active']"> 
+         <a class="nav-link" [routerLink]="['/client']">Clients</a> 
+       </li> 
+       <li class="nav-item" [routerLinkActive]="['active']"> 
+         <a class="nav-link" [routerLink]="['/order']">Orders</a> 
+       </li> 
+     </ul> 
+   </div> 
+ </header> 

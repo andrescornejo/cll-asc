@@ -1,0 +1,89 @@
+<!-- Back button. -->
+<div class="row mx-5 my-3">
+	<a class="btn btn-outline-secondary" [routerLink]="['/client/order-details', client_nick ]">&larr; Back</a>
+</div>
+
+<!-- Status alerts. -->
+<div class="container mt-3">
+	<!-- Notification for success because ngAlerts are not working.-->
+	<div class="alert alert-success" role="alert" *ngIf="is_success">
+		{{succ_msg}}
+	</div>
+	<!-- Notification for errors because ngAlerts are not working.-->
+	<div class="alert alert-danger" role="alert" *ngIf="has_error">
+		{{error_msg}}
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="px-4 py-4 row">
+		<div class="col-md-8">
+			<h3 class="mb-4">Add/Remove products from {{client_nick}}'s order, {{tracking_number}}.</h3>
+			<!-- Product table. -->
+			<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Name</th>
+						<th scope="col">Link</th>
+						<th scope="col">Price</th>
+						<th scope="col">Order Date</th>
+						<th scope="col">Quantity</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let product of products; index as i">
+						<th scope="row">{{ i + 1 }}</th>
+						<td>{{ product.name_ }}</td>
+						<td>{{ product.hyperlink }}</td>
+						<td>${{ product.price }}</td>
+						<td>{{ product.order_date }}</td>
+						<td>{{ product.quantity }}</td>
+						<td><button (click)="deleteProductConfirmed(product.name_, tracking_number)"
+								class="btn btn-danger btn-sm">Delete</button></td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+		<div class="col-md-3 pt-5 mx-5">
+			<div class="form-group">
+				<label for="prod_name">Product Name*</label>
+				<input type="text" class="form-control" id="prod_name" required [(ngModel)]="new_product.name_"
+					name="prod_name" />
+			</div>
+			<div class="form-group">
+				<label for="hlink">Product Link</label>
+				<input type="text" class="form-control" id="hlink" required [(ngModel)]="new_product.hyperlink"
+					name="hlink" />
+			</div>
+			<div class="form-group">
+				<label for="prod_price">Product Price* (Dollars)</label>
+				<input type="text" class="form-control" id="prod_price" required [(ngModel)]="new_product.price"
+					name="prod_price" />
+			</div>
+			<div class="form-group">
+				<label for="sp">Order Date:*</label>
+				<div class="input-group">
+					<input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="datepicker_out"
+						ngbDatepicker #d="ngbDatepicker">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
+							type="button">Calendar</button>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="prod_quan">Quantity*</label>
+				<input type="text" class="form-control" id="prod_quan" required [(ngModel)]="new_product.quantity"
+					name="prod_quan" (keyup.enter)="insertProduct()" />
+			</div>
+
+			<p>* required fields.</p>
+
+			<button (click)="insertProduct()" class="btn btn-success">Add Product</button>
+		</div>
+	</div>
+
+</div>

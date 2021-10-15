@@ -1,0 +1,32 @@
+<div class="container mt-3">
+	<div class="jumbotron">
+		<h1 class="display-3 text-center">Carga Llama</h1>
+		<br>
+		<br>
+		<br>
+		<br>
+		<div class="row">
+			<div class="col-sm text-center">
+				<a class="btn btn-primary btn-lg" [routerLink]="['/client']">Manage Orders/Clients</a>
+			</div>
+			<div class="col-sm text-center">
+				<a class="btn btn-primary btn-lg" [routerLink]="['/order']">View Orders</a>
+			</div>
+		</div>
+	</div>
+
+</div>
+<footer class="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm">
+
+				<span class="text-muted">Carga Llama Desktop App</span>
+			</div>
+			<div class="col-sm">
+
+				<span class="text-muted float-right">{{ release_model }} release, version {{ version }}</span>
+			</div>
+		</div>
+	</div>
+</footer>
