@@ -4,7 +4,7 @@ import { Product } from '../../../models/product.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CargallamaService } from '../../../services/cargallama.service';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
 	selector: 'app-product-panel',
@@ -13,18 +13,18 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'
 })
 export class ProductPanelComponent implements OnInit {
 
-	tracking_number = '';
-	client_nick = '';
-	new_product: Product = {};
+	trackingNumber = '';
+	clientNick = '';
+	newProduct: Product = {};
 	products?: Product[];
 
-	datepicker_out: NgbDateStruct;
+	datePickerOut: NgbDateStruct;
 
-	is_success = false;
-	succ_msg = '';
+	isSuccess = false;
+	successMsg = '';
 
-	has_error = false;
-	error_msg: any;
+	hasError = false;
+	errorMsg: any;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -33,15 +33,14 @@ export class ProductPanelComponent implements OnInit {
 		private modalService: NgbModal) { }
 
 	ngOnInit(): void {
-		this.tracking_number = this.route.snapshot.params.tracking_number;
-		this.client_nick = this.route.snapshot.params.nickname;
-		this.getProducts(this.tracking_number);
+		this.trackingNumber = this.route.snapshot.params.tracking_number;
+		this.clientNick = this.route.snapshot.params.nickname;
+		this.getProducts(this.trackingNumber);
 	}
 
-	private dateToString = (date) => `${date.year}-${date.month}-${date.day}`;
 
-	getProducts(tracking_number: string): void {
-		this.cllservice.productGetFromOrder(tracking_number)
+	getProducts(trackingNumber: string): void {
+		this.cllservice.productGetFromOrder(trackingNumber)
 			.subscribe(
 				data => {
 					this.products = data;
@@ -49,36 +48,36 @@ export class ProductPanelComponent implements OnInit {
 				},
 				error => {
 					console.log(error);
-					this.error_msg = error.error.errors[0].message;
-					this.is_success = false;
-					this.has_error = true;
+					this.errorMsg = error.error.errors[0].message;
+					this.isSuccess = false;
+					this.hasError = true;
 				});
 	}
 
 	insertProduct(): void {
-		if (this.new_product.hyperlink === '') {
-			this.new_product.hyperlink = null;
+		if (this.newProduct.hyperlink === '') {
+			this.newProduct.hyperlink = null;
 		}
-		const query_data = {
-			_name: this.new_product.name_,
-			_hyperlink: this.new_product.hyperlink,
-			_price: this.new_product.price,
-			_order_date: this.dateToString(this.datepicker_out),
-			_quantity: this.new_product.quantity
+		const queryData = {
+			_name: this.newProduct.name_,
+			_hyperlink: this.newProduct.hyperlink,
+			_price: this.newProduct.price,
+			_order_date: this.dateToString(this.datePickerOut),
+			_quantity: this.newProduct.quantity
 		};
 
-		this.cllservice.productCreate(this.tracking_number, query_data)
+		this.cllservice.productCreate(this.trackingNumber, queryData)
 			.subscribe(
 				response => {
 					console.log(response);
-					this.has_error = false;
-					this.getProducts(this.tracking_number);
+					this.hasError = false;
+					this.getProducts(this.trackingNumber);
 					this.clearFields();
 				},
 				error => {
-					this.error_msg = error.error.errors[0].message;
-					this.has_error = true;
-					this.is_success = false;
+					this.errorMsg = error.error.errors[0].message;
+					this.hasError = true;
+					this.isSuccess = false;
 					console.log(error);
 				}
 			);
@@ -91,23 +90,25 @@ export class ProductPanelComponent implements OnInit {
 			.subscribe(
 				response => {
 					console.log(response);
-					this.getProducts(this.tracking_number);
-					this.is_success = true;
-					this.has_error = false;
-					this.succ_msg = `Product ${name} deleted successfully.`
+					this.getProducts(this.trackingNumber);
+					this.isSuccess = true;
+					this.hasError = false;
+					this.successMsg = `Product ${name} deleted successfully.`;
 				},
 				error => {
 					console.log(error);
-					this.is_success = false;
-					this.has_error = true;
-					this.succ_msg = `Error deleting product: ${name}.`
+					this.isSuccess = false;
+					this.hasError = true;
+					this.successMsg = `Error deleting product: ${name}.`;
 				});
-		// Since this should never fail, error handling is pretty lax here. 
+		// Since this should never fail, error handling is pretty lax here.
 		// However if more should be needed in the future, it will be programmed.
 	}
 
 	clearFields(): void {
-		this.new_product = {};
+		this.newProduct = {};
 	}
+
+	private dateToString = (date) => `${date.year}-${date.month}-${date.day}`;
 
 }
