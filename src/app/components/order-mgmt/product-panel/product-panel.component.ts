@@ -59,9 +59,11 @@ export class ProductPanelComponent implements OnInit {
 			this.newProduct.hyperlink = null;
 		}
 		const queryData = {
+			// eslint-disable-next-line no-underscore-dangle
 			_name: this.newProduct.name_,
 			_hyperlink: this.newProduct.hyperlink,
 			_price: this.newProduct.price,
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			_order_date: this.dateToString(this.datePickerOut),
 			_quantity: this.newProduct.quantity
 		};
