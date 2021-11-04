@@ -93,7 +93,6 @@ export class ProductPanelComponent implements OnInit {
 				response => {
 					console.log(response);
 					this.getProducts(this.trackingNumber);
-					this.isSuccess = true;
 					this.hasError = false;
 					this.successMsg = `Product ${name} deleted successfully.`;
 				},
