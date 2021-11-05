@@ -1,0 +1,101 @@
+<!-- Modal code-->
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-delete-client">Confirm client deletion</h4>
+		<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="form-group">
+				<p>Are you sure you want to delete the order: <strong>{{ current_order.tracking_number }}</strong>?</p>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" ngbAutofocus
+			(click)="modal.dismiss('cancel click')">Cancel</button>
+		<button type="button" class="btn btn-outline-danger" (click)="clientDeleteConfirmed()">Delete</button>
+	</div>
+</ng-template>
+
+<!--Order History code -->
+<div class="row mx-5 my-3">
+	<a class="btn btn-outline-secondary" [routerLink]="['/client']">&larr; Back</a>
+</div>
+
+<div class="container-xl">
+	<div class="row jumbotron">
+		<div class="col-md-4">
+			<h4>Order History for: {{ client_nick }}</h4>
+			<br>
+			<ul class="list-group">
+				<li class="list-group-item" *ngFor="let order of orders; let i = index"
+					[class.active]="i == currentIndex" (click)="setActiveOrder(order, i)">
+					<strong>{{ order.tracking_number }}</strong> - Modified at: {{ order.inserted_at }}
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-6">
+			<div *ngIf="current_order.tracking_number">
+				<h4>Order information</h4>
+				<br>
+				<div>
+					<label>Tracking Number:</label> {{ current_order.tracking_number }}
+				</div>
+				<div>
+					<label>Correos CR Tracking: </label>
+					{{ current_order.correos_tracking_number }}
+				</div>
+				<div class="form-group form-check">
+					<input type="checkbox" [(ngModel)]="current_order.is_first_payment" class="form-check-input"
+						id="check_first_paym" disabled>
+					<label class="form-check-label" for="check_first_paym">First payment</label>
+				</div>
+				<div class="form-group form-check">
+					<input type="checkbox" [(ngModel)]="current_order.is_second_payment" class="form-check-input"
+						id="check_second_paym" disabled>
+					<label class="form-check-label" for="check_second_paym">Second payment</label>
+				</div>
+				<div>
+					<label>Delivery State: {{ current_order.delivery_state }}</label>
+				</div>
+				<div>
+					<label>Service Fee:</label>
+					${{ current_order.service_fee }}
+				</div>
+				<div>
+					<label><strong>Total Fee:</strong></label>
+					${{ current_order.total_fee }}
+				</div>
+				<div>
+					<label>Delivery Date:</label>
+					{{ current_order.delivery_date}}
+				</div>
+				<div class="form-group form-check">
+					<input type="checkbox" [(ngModel)]="current_order.is_completed" class="form-check-input"
+						id="check_is_completed" disabled>
+					<label class="form-check-label" for="check_is_completed">Delivered</label>
+				</div>
+				<div>
+					<label>Order description:</label>
+					{{ current_order.description_ }}
+				</div>
+
+				<a class="btn btn-outline-primary mt-3"
+					routerLink="/order/products/{{ client_nick }}/{{ current_order.tracking_number }}">Add/Remove Products</a>
+				<hr>
+				<a class="badge badge-warning mx-1" routerLink="/order/update/{{ client_nick }}/{{ current_order.tracking_number }}">
+					Edit
+				</a>
+				<a class="badge badge-danger mx-1" (click)="openDeleteModal(content)">
+					Delete
+				</a>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<button (click)="addNewOrder()" class="btn btn-outline-success float-right">New Order</button>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,77 @@
+<!-- Modal code-->
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-delete-client">Confirm client deletion</h4>
+		<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="form-group">
+				<p>Are you sure you want to delete the client: <strong>{{ currentClient.nickname }}</strong>?</p>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" ngbAutofocus
+			(click)="modal.dismiss('cancel click')">Cancel</button>
+		<button type="button" class="btn btn-outline-danger" (click)="clientDeleteConfirmed()">Delete</button>
+	</div>
+</ng-template>
+
+<!--Main page code -->
+<div class="container mt-3">
+
+	<!--Search bar code -->
+	<div class="row">
+		<div class="input-group mb-3 col-sm">
+			<!--Search for every keyboard stroke (keyup).-->
+			<input type="text" class="form-control" placeholder="Search by nickname" (keyup)="searchByNickname()"
+				[(ngModel)]="nickname" />
+		</div>
+		<div class="col-sm">
+			<a class="btn btn-outline-success float-right" [routerLink]="['/client/add']">Add New Client</a>
+		</div>
+	</div>
+
+	<!--Client list code -->
+
+	<div class="row jumbotron">
+		<div class="col-md-4">
+			<h4>Client List</h4>
+			<ul class="list-group">
+				<li class="list-group-item" *ngFor="let client of clients ; let i = index"
+					[class.active]="i == currentIndex" (click)="setActiveClient(client, i)">
+					{{ client.nickname }}
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-8">
+			<div *ngIf="currentClient.client_id">
+				<h4>Client information</h4>
+				<div>
+					<label><strong>Nickname:</strong></label> {{ currentClient.nickname}}
+				</div>
+				<div>
+					<label><strong>Name:</strong></label>
+					{{ currentClient.name_ }}
+				</div>
+				<div>
+					<label><strong>Surnames:</strong></label>
+					{{ currentClient.surnames }}
+				</div>
+
+				<a class="btn btn-outline-primary mt-3"
+					routerLink="/client/order-details/{{ currentClient.nickname }}">View order history</a>
+				<hr>
+				<a class="badge badge-warning mx-1" routerLink="/client/update/{{ currentClient.nickname }}">
+					Edit
+				</a>
+				<a class="badge badge-danger mx-1" (click)="openDeleteModal(content)">
+					Delete
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

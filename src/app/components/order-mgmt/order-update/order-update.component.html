@@ -1,0 +1,89 @@
+<div class="row mx-5 my-3">
+	<a class="btn btn-outline-secondary" [routerLink]="['/client/order-details', client_nick ]">&larr; Back</a>
+</div>
+
+<div class="container mt-3">
+	<div class="submit-form jumbotron">
+		<!-- Notification for success because ngAlerts are not working.-->
+		<div class="alert alert-success" role="alert" *ngIf="is_updated">
+			<strong>{{ last_updated }}</strong> updated successfully.
+		</div>
+		<!-- Notification for errors because ngAlerts are not working.-->
+		<div class="alert alert-danger" role="alert" *ngIf="has_error">
+			{{error_msg}}
+		</div>
+
+		<h3 class="mb-4">Update an Order.</h3>
+
+		<form action="">
+			<div class="row">
+				<div class="form-group col-sm">
+					<label for="old_track">Old Tracking Number*</label>
+					<input type="text" class="form-control" id="old_track" required
+						[(ngModel)]="old_tracking_no" name="old_track" readonly />
+				</div>
+				<div class="form-group col-sm">
+					<label for="new_track">New Tracking Number*</label>
+					<input type="text" class="form-control" id="new_track" (keyup.enter)="updateOrder()" required
+						[(ngModel)]="new_order.tracking_number" name="new_track" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-sm">
+					<label for="correos_track">Correos Tracking Number:</label>
+					<input type="text" class="form-control" (keyup.enter)="updateOrder()" id="correos_track" required
+						[(ngModel)]="new_order.correos_tracking_number" name="correos_track" />
+				</div>
+				<div class="form-group col-sm">
+					<label for="del_state">Delivery State:</label>
+					<input type="text" class="form-control" (keyup.enter)="updateOrder()" id="del_state" required
+						[(ngModel)]="new_order.delivery_state" name="del_state" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-sm">
+					<label for="sp">Delivery Date:</label>
+					<div class="input-group">
+						<input class="form-control" (keyup.enter)="updateOrder()" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="datepicker_out"
+							ngbDatepicker #d="ngbDatepicker">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
+								type="button">Calendar</button>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-sm">
+					<label for="serv_fee"><strong>Service Fee:</strong></label>
+					<input type="text" class="form-control" (keyup.enter)="updateOrder()" id="serv_fee" required [(ngModel)]="new_order.service_fee"
+						name="serv_fee" />
+				</div>
+			</div>
+			<div class="row mx-2">
+				<div class="form-group form-check col-md-4">
+					<input type="checkbox" [(ngModel)]="new_order.is_first_payment" class="form-check-input"
+						id="check_first_paym" name="check_first_paym">
+					<label class="form-check-label" for="check_first_paym">First payment</label>
+				</div>
+				<div class="form-group form-check col-md-4">
+					<input type="checkbox" [(ngModel)]="new_order.is_second_payment" class="form-check-input"
+						id="check_second_paym" name="check_second_paym">
+					<label class="form-check-label" for="check_second_paym">Second payment</label>
+				</div>
+				<div class="form-group form-check col-md-4">
+					<input type="checkbox" [(ngModel)]="new_order.is_completed" class="form-check-input"
+						id="check_is_completed" name="check_is_completed">
+					<label class="form-check-label" for="check_is_completed">Delivered</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="order_desc">Description</label>
+				<textarea class="form-control" [(ngModel)]="new_order.description_" name="order_desc" id="order_desc" rows="3" ></textarea>
+			</div>
+		</form>
+
+		<p>* required for update.</p>
+
+		<button (click)="updateOrder()" class="btn btn-success">Update Order</button>
+
+	</div>
+</div>
